@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from streamlit_option_menu import option_menu
 import os
 import joblib
 import plotly.express as px
@@ -12,8 +11,6 @@ from data_analysis_page import DataPlots
 from query_tool import QueryTool
 from model_page import ModelTrainer
 from conclusion_page import ConclusionPage
-
-
 
 # Globally load data
 data_processor = DataProcessor()
@@ -26,7 +23,6 @@ def load_model(model_name):
     model_path = os.path.join('models', f'{model_name}.pkl')
     selected_model = joblib.load(model_path)
     return selected_model
-
 
 def home():
     HomePage.load_project_intro()
@@ -84,13 +80,11 @@ def models():
     st.write("## Co-Purchase Prediction")
     model_trainer.predict_co_purchases(purchase_lines_df, product_id)
 
-
 def conclusion():
     ConclusionPage.load_project_conclusiom()
 
 def navbar():
-    with st.sidebar:
-        selected = option_menu("Menu", ["Home 🏡", "Data Analysis 📊", "Query Tool 🔍", "ML Modeling 🤖", "Conclusions + Next Steps 🚀"], default_index=0)
+    selected = st.sidebar.radio("Menu", ["Home 🏡", "Data Analysis 📊", "Query Tool 🔍", "ML Modeling 🤖", "Conclusions + Next Steps 🚀"])
     
     if selected == "Home 🏡":
         home()
